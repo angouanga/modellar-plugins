@@ -94,8 +94,7 @@ The dialog opens with the title **Create Composition SWC Type** or **Create Atom
 Summarise the values and ask for go. Then click
 **Create Component** and wait until the button stops reading "Creating...".
 
-Success shows the toast **"Software component created successfully"** (sometimes
-twice; that is normal). A red message under a field means it wasn't saved. Fix
+Success shows the toast **"Software component created successfully"**. A red message under a field means it wasn't saved. Fix
 exactly that field and submit again.
 
 ### The optional diagram step

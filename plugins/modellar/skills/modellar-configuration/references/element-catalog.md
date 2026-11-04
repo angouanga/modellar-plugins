@@ -275,8 +275,8 @@ behaviorId`.
 - **Menu:** **Types** → **ComSpecs**. **Button:** **New ComSpec**. **Submit:**
   **Create**.
 - **Route today:** **MCP only for create.** The form picks a batch on its own and
-  saves without a source file. It also defaults ComSpec Type to "Unknown": never
-  keep that.
+  saves without a source file. **ComSpec Type** starts empty and must be picked;
+  "Unknown" shows only on an imported ComSpec whose type wasn't read: change it.
 
 ## EcuInstanceType (ECU type)
 

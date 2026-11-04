@@ -83,7 +83,7 @@ For when the user asks to do it in the UI, or the MCP route isn't available.
 9. Summarise the values and wait for go. Then click **Create Prototype** and wait
    until it stops reading "Creating...".
 
-Success shows the toast **"Component prototype created successfully."** The new card
+Success shows the toast **"SW component prototype staged successfully"**. The new card
 has the footer button **Add** (its grey status icon's tooltip reads "Not in diagram").
 To show it, continue with task
 `show-component-on-diagram.md`, section 5.

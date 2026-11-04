@@ -109,8 +109,8 @@ URL: `https://<host>/designer/{modelId}/...`. Take `{modelId}` from it.
 8. Summarise and wait for go. Click **Create Connector**; wait until it stops
    reading "Creating...".
 
-Success: **"Assembly connector staged successfully"** (or Delegation) and
-**Connector "<name>" created successfully**. The new card's button reads **Add**
+Success: **"Assembly connector staged successfully"** (or Delegation). The new
+card's button reads **Add**
 ("Not in diagram"). Errors: **"Fix 1 field before saving"** (read the red message,
 such as "Requiring port is required for assembly connectors"), or **"Error"** with
 the server's text.

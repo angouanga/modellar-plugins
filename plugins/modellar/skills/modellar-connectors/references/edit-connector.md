@@ -46,8 +46,7 @@ URL: `https://<host>/designer/{modelId}/...`. Take `{modelId}` from it.
 4. Summarise old → new and wait for go. Click **Update Connector**; wait until it
    stops reading "Updating...".
 
-Success: **"Connector updated successfully"** and **Connector "<name>" updated
-successfully**. If an end moved and the line is drawn, refresh the diagram to see
+Success: **"Connector updated successfully"**. If an end moved and the line is drawn, refresh the diagram to see
 it redrawn.
 
 ## 5. Report

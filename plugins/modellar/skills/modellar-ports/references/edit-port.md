@@ -46,8 +46,7 @@ URL: `https://<host>/designer/{modelId}/...`. Take `{modelId}` from it.
 4. Summarise old → new and wait for go. Click **Update**; wait until it stops reading
    "Updating...".
 
-Success: **"Port prototype updated successfully"** and **"Port updated
-successfully."** Errors: **"Update failed"** (report the text), or **"Cannot update
+Success: **"Port prototype updated successfully"**. Errors: **"Update failed"** (report the text), or **"Cannot update
 this port"** (its stored data is broken: tell the user it must be repaired or
 re-created).
 
