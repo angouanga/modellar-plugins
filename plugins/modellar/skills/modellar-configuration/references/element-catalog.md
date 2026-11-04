@@ -191,9 +191,9 @@ behaviorId`.
 - **Fields:** **`componentQname / componentId`**.
 - **Stored as:** `componentRef` → `componentQname`.
 - **Menu:** none: **Go to…** `SWC Internal Behaviors`. **Button:** **New Behavior**.
-  **Dialog:** **Add Behavior**. **Submit:** **Create**.
-- **Route today:** **MCP only. Form broken**: the create form saves without a batch
-  and fails, usually with no message.
+  **Dialog:** **Add Behavior**. **Submit:** **Create**. From the SWC's row: **Open
+  Internal Behaviour** (`create-element.md`, "From the parent's row").
+- **Route today:** MCP and form. The form takes the SWC's batch and source file.
 - **Traps:** an SWC normally has one behavior. Search for an existing one first.
 
 ## Runnable (runnable entity)
@@ -205,9 +205,10 @@ behaviorId`.
   `canBeInvokedConcurrently` (false).
 - **Stored as:** `behaviorRef` → `behaviorQname`.
 - **Menu:** **SW Component Types** → **Runnable Entities**. **Button:** **New
-  Runnable**. **Dialog:** **Create Runnable**. **Submit:** **Create**.
-- **Route today:** **MCP only. Form broken**: it saves without a batch and fails
-  without a message. Edit through the form works.
+  Runnable**. **Dialog:** **Create Runnable**. **Submit:** **Create**. From a
+  parent's row: **Open Runnables** on the SWC or the behavior.
+- **Route today:** MCP and form. The form takes the behavior's batch and source
+  file.
 
 ## RteEvent
 
@@ -224,9 +225,10 @@ behaviorId`.
 - **Stored as:** `behaviorRef` → `behaviorQname`.
 - **Menu:** **SW Component Types** → **RTE Events**. **Button:** **New RTE Event**.
   **Submit:** **Create Event**.
-- **Route today:** **MCP only. Form broken** for create ("Failed to create RTE event:
-  Missing source file …"). Edit through the form works for timing events. Through
-  MCP, use real ids for `behaviorId` and `runnableId`.
+- **Route today:** MCP and form. The form takes the behavior's batch and source
+  file, and requires **Runnable Entity (startOnEvent)**. From a parent's row:
+  **Open Events** on the SWC or the behavior. Through MCP, use real ids for
+  `behaviorId` and `runnableId`.
 - **Traps:** `period` and `offset` are stored in **seconds**. The table shows them
   in ms ("10 ms"); older versions of the app show the seconds value with "ms"
   after it ("0.01ms"), which also means 10 ms. Don't "correct" either.
@@ -254,6 +256,8 @@ behaviorId`.
   Timeout (ms), parameter, trigger or mode group, depending on the interface.
 - **Route today:** MCP and the table's dialog. The full create page needs a
   runnable: it shows "Runnable context is required …" when opened from **Go to…**.
+  From the runnable's row (**Open Access Points**) the component, behavior and
+  runnable are already set and the **Select Component Context** picker is hidden.
 
 ## ComSpec
 

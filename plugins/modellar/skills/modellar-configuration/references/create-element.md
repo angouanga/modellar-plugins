@@ -93,6 +93,27 @@ Pick one:
 - **The full page:** **Go to…** (or **Ctrl+K**), type `New <section>` (for example
   `New Interfaces`, `New Data Types`, plural) and press **Enter** once the entry is
   visible. The page shows the heading **Create …**.
+- **From the parent's row** (child types, best when the parent is known): open the
+  parent's table, its row menu **Actions for <parent>**, and the list item for the
+  child (table below). A dialog lists that parent's children only; its create
+  button opens the form with the parent already set and its picker hidden.
+
+  | Parent's table                  | Row menu item                                   | Children                          | Create button                          |
+  | ------------------------------- | ----------------------------------------------- | --------------------------------- | -------------------------------------- |
+  | **SW Component Types** (atomic) | **Open Internal Behaviour**                     | Behavior                          | **New Behavior**                       |
+  | **SW Component Types** (atomic) | **Open Runnables** / **Open Events**            | Runnable / RteEvent               | **New Runnable** / **New RTE Event**   |
+  | **SW Component Types**          | **Open Ports**                                  | PortPrototype (skill `modellar-ports`) | **Add Port Prototype**            |
+  | **SW Component Types** (atomic) | **Open Local VDP** / **Open Local Parameter Data** | the behavior's own data        | **New Variable Data Prototype** / **New Parameter Data Prototype** |
+  | **SWC Internal Behaviors**      | **Open Runnables** / **Open Events**            | Runnable / RteEvent               | **New Runnable** / **New RTE Event**   |
+  | **Runnable Entities**           | **Open Access Points**                          | AccessPoint                       | **Add Access Point**                   |
+  | **Interfaces**                  | **Manage Variable Data Prototypes** (sender-receiver, NV data), **Manage Operations** (client-server), **Manage Triggers**, **Manage Parameter Data Prototypes**, **Manage Mode Declaration Group Prototypes** | the interface's one child kind | **New Variable Data Prototype**, **New Operation**, **New Trigger**, **New Parameter Data Prototype**, **New Prototype** |
+  | **System Configuration**        | **Open ECU Prototypes** / **Open Connections**  | skill `modellar-communication`    | **New ECU Prototype** / **New Connection** |
+  | **ECU Types**                   | **Open Ports**                                  | skill `modellar-communication`    | **Send / Receive a PDU**               |
+
+  The dialog's title is "<Children> — <parent>" (e.g. **Runnables — MySwc**), or
+  "Manage <parent> <children>" for an interface. From a component's row, a new
+  runnable or RTE event still asks for the behavior when the component has several;
+  with one, it is already chosen.
 
 Never open a form on an address that holds the model's slug (see skill
 `modellar-navigation`): it displays fine, but nothing it saves arrives.
@@ -149,8 +170,10 @@ The element's type and qualified name, its parent, the batch, and where to see i
 - After an error from `stage_element`, search before retrying: it may have been
   written anyway. Retry with the **same** idempotency key. Never retry after a
   warning that says not to.
-- **"Staging batch not found"** for a child: the parent sits in another user's
-  batch. Tell the user; don't try another batch.
+- **"Staging batch not found"** (MCP), or the toast "The staging batch belongs to
+  another user or no longer exists, so nothing was saved." (form), for a child: the
+  parent sits in another user's batch. A child can only go into its parent's batch,
+  so tell the user; don't try another batch.
 - A leading slash in **Package Path** produces `//Pkg/Name`. Strip it.
 - Operations have **no arguments** yet: neither the form nor the connector can add
   them. Say so if the user asks for arguments.

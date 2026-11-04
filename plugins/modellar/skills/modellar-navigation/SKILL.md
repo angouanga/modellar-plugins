@@ -107,8 +107,9 @@ Sections with create and edit pages:
 `mode-declaration-groups`, `mode-declaration-group-prototypes`, `ecu-types`,
 `system-configs`.
 
-List only: `base-types`, `connections`, `ecu-ports`, `ecu-prototypes`, `mappings`,
-`system-description`.
+List only (no create or edit page; `connections`, `ecu-ports` and `ecu-prototypes`
+create and edit in dialogs on the list): `base-types`, `connections`, `ecu-ports`,
+`ecu-prototypes`, `mappings`, `system-description`.
 
 Other model pages: `/designer/{modelId}/arxml`, `/designer/{modelId}/validation`,
 `/designer/{modelId}/analytics`.
