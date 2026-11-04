@@ -16,9 +16,10 @@ How to read a block:
 - **Stored as**: names that `search_elements` returns differently. Map them back
   before an update (`edit-element.md`, step 3.2). Always: the stored `parentId` is
   the parent's qualified name, or the Package Path for a top-level element.
-  A stored reference (a `…Ref` field) may start with `/` (imported from ARXML) or
-  not (created in the app). Both mean the same element: compare names ignoring a
-  leading `/`, and in an update send a reference back in the form it is stored in.
+  A reference (a `…Ref` field) is stored without a leading `/`, like a
+  `qualifiedName`; one sent with a leading `/` is stored without it. Send
+  references without it. An older element may still show one: compare names
+  ignoring a leading `/`.
 - **Defaults**: values saved when a field is left empty, though the form doesn't
   show them. Tell the user before saving.
 - **Menu**: the path under the menubar **Configuration**. The menubar is the row of
