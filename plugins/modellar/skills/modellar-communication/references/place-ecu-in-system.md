@@ -9,6 +9,9 @@ that system's PDUs. This is why an ECU is missing from **Add transmitting ECU**.
   own ECU (task `send-or-receive-a-pdu.md`, visual route step 2).
 - On a **System diagram**: select the system frame; tab **ECU Prototypes** lists the
   ECUs placed in it (heading **ECU Instance Prototypes**).
+- In **Configuration** → **System Configuration**: the system's row menu (**Actions
+  for <system>**) → **Open ECU Prototypes** lists them in a dialog **ECU Prototypes —
+  <system>**.
 
 ## 2. MCP route (default)
 
@@ -16,9 +19,9 @@ that system's PDUs. This is why an ECU is missing from **Add transmitting ECU**.
    placed in the system: nothing to do.
 2. `list_systems({ modelId })`: the system's `id` (pick by `sourceFile` when names
    repeat). For a PDU, use the system `get_pdu` returns.
-3. The batch: `list_staging_batches({ modelId })`, the user picks.
-4. Summarise ("place ECU X in system S, file F") and wait for go.
-5. `place_ecu_in_system({ modelId, batchId, ecuId, systemId })`. It fills every
+3. Summarise ("place ECU X in system S, file F") and wait for go. No batch to ask
+   for: the prototype goes into the system's batch.
+4. `place_ecu_in_system({ modelId, ecuId, systemId })`. It fills every
    reference itself. When the ECU is already there it answers `alreadyPlaced: true`
    and stages nothing. When another ECU of the same name is already placed in the
    system, the new placement is named `<ECU>_1` (then `_2` …): its `qualifiedName`
@@ -26,13 +29,25 @@ that system's PDUs. This is why an ECU is missing from **Add transmitting ECU**.
 
 ## 3. Visual route
 
-1. Open the System diagram of that system (skill `modellar-diagrams`).
-2. Select the system frame. Tab **ECU Prototypes**. Click **Add ECU Prototype** (or
-   **Add your first ECU prototype** when the list is empty). Dialog **Create ECU
-   Prototype**.
-3. **Staging Batch**, **Short Name** (usually the ECU's own name), **ECU Instance
-   Type** (the ECU), optional **Description**.
-4. Summarise and wait for go. Click **Create Prototype**.
+Open the dialog **Create ECU Prototype** one of three ways:
+
+- **System diagram:** open the System diagram of that system (skill
+  `modellar-diagrams`), select the system frame, tab **ECU Prototypes**, click **Add
+  ECU Prototype** (or **Add your first ECU prototype** when the list is empty).
+- **The system's row:** menubar **Configuration** → **System Configuration**, the
+  system's row menu **Actions for <system>** → **Open ECU Prototypes** → **New ECU
+  Prototype**.
+- **The ECU prototypes page:** **Configuration** → **System Configuration** → **ECU
+  Prototype** → **New ECU Prototype**. A first dialog **New ECU Prototype** asks for
+  the system ("Choose the system to deploy the ECU in."): pick it, **Continue**.
+
+Then:
+
+1. **Short Name** (usually the ECU's own name), **ECU Instance Type** (the ECU),
+   optional **Description**. There is no batch field: the line under the form says
+   "Deployed in <system path>, staged in its batch."
+2. Summarise and wait for go. Click **Create Prototype**. Toast **ECU prototype
+   created successfully**.
 
 ## 4. Report
 
@@ -46,3 +61,5 @@ PDU (`send-or-receive-a-pdu.md`).
   `systemSourceFile`.
 - `stage_element` with `EcuInstancePrototype` needs seven reference fields, two of
   them duplicates: use `place_ecu_in_system` instead.
+- **Refused because the system's batch belongs to another user** (an import someone
+  else did): nothing was staged. Tell the user; the system's owner has to place it.

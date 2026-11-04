@@ -39,6 +39,10 @@ A port uses one **port interface** (sender-receiver, client-server, …). The
 interface must exist first. To create a missing interface, use skill
 `modellar-configuration`.
 
+**ECU ports** (the communication ports of an ECU type) are not made here: an ECU
+gets a port by sending or receiving a PDU. Skill `modellar-communication`, task
+`send-or-receive-a-pdu.md`.
+
 ## Tasks
 
 Read the task file before you start. Read only the ones you need.

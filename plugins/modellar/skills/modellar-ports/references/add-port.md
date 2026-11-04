@@ -93,6 +93,11 @@ Success shows two toasts: **"Port prototype created successfully"** and **"Port
 created successfully."** The new card appears in the list, dimmed: it isn't drawn.
 To draw it, continue with `show-hide-or-move-ports.md`.
 
+**Without a diagram:** menubar **Configuration** → **SW Component Types**, the SWC's
+row menu **Actions for <SWC>** → **Open Ports** (dialog **Ports — <SWC>**) → **Add
+Port Prototype**. Dialog **Create Port Prototype** with the SWC already set; fill
+steps 5–9 the same way. The port is in the SWC's batch and not on any diagram.
+
 Errors: **"Fix 1 field before saving"** (a field is red: read its message under
 it, such as "Please select an interface" or "Short name must begin with a letter
 and contain only letters, numbers and underscores"); **"Creation failed"** (the
@@ -111,6 +116,7 @@ not shown on the diagram yet. Offer to show it.
 - The port goes on the **type**: every component of that type gets it.
 - After an error from `stage_element`, search for the port before retrying. It may
   have been written anyway. Retry with the **same** idempotency key.
-- **"Staging batch not found"** means the SWC sits in another user's batch. Tell
-  the user; don't try another batch.
+- **"Staging batch not found"** (MCP), or the toast "The staging batch belongs to
+  another user or no longer exists, so nothing was saved." (form), means the SWC
+  sits in another user's batch. Tell the user; don't try another batch.
 - The dock lists no **Add Port** button: use the Ports tab.

@@ -47,8 +47,8 @@ behaviors, runnables, RTE events, access points, ComSpecs, ECU types, systems.
 
 Elsewhere: **SWC types and components** → skill `modellar-components`. **Ports** →
 skill `modellar-ports`. **Connectors** → skill `modellar-connectors`. **PDUs,
-signals, ECUs placed in systems, who sends or receives a PDU** → skill
-`modellar-communication`. Showing
+signals, ECUs placed in systems (ECU prototypes), a system's connections, ECU ports,
+who sends or receives a PDU** → skill `modellar-communication`. Showing
 anything on a diagram → skill `modellar-diagrams`.
 
 ## Common chains

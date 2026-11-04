@@ -44,6 +44,15 @@ SWC Internal Behaviors has no menu entry: use **Go to…** (`SWC Internal Behavi
 - 50 rows per page. Under the table: **"Page 1 of 2"**, **Previous**, **Page 1**,
   **Page 2**, **Next**.
 
+### One parent's children
+
+A row's menu (**Actions for <name>**, the **⋯** at the row's end) lists that
+element's children in a dialog: **Open Runnables**, **Open Events**, **Open
+Ports**, **Open Access Points**, **Open ECU Prototypes**, **Open Connections**, or
+**Manage …** on an interface. Same table, filters and paging, limited to that
+parent; its create button makes a child of it (`create-element.md`, "From the
+parent's row").
+
 ### Filter and sort
 
 - **Search box** (e.g. "Search interfaces..."): matches part of the **short name

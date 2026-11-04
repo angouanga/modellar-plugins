@@ -11,9 +11,13 @@ ECU on the other side.
 
 ## 1. Where am I?
 
-The System Description editor (task `find-pdus-and-signals.md`, section 1), in edit
-mode. Opened from an **ECU diagram's** dock, the editor knows that diagram's ECU (see
-the visual route).
+- The System Description editor (task `find-pdus-and-signals.md`, section 1), in
+  edit mode, works from the PDU. Opened from an **ECU diagram's** dock, the editor
+  knows that diagram's ECU (see the visual route).
+- **Configuration** → **ECU Types** works from the ECU: its row menu → **Open
+  Ports** (dialog **Ports — <ECU>**), or the **ECU Ports** page, lists ECU ports;
+  their button **Send / Receive a PDU** is this task. An ECU port is never created
+  on its own: it exists because the ECU sends or receives a PDU.
 
 ## 2. MCP route (default)
 
@@ -21,16 +25,21 @@ the visual route).
    No system: set one first (task `create-pdu-and-signals.md`, Edit PDU).
 2. `list_ecus({ modelId, search: "<ECU name>" })`: the ECU's `id` and `placedIn`.
    Not placed in the PDU's system: task `place-ecu-in-system.md` first.
-3. The batch: `list_staging_batches({ modelId })`, the user picks.
+3. The batch: `list_staging_batches({ modelId })`, the user picks. It only takes
+   the PDU's interface when one has to be created; the port goes into the ECU
+   type's batch, the connections into the system's.
 4. Summarise ("ECU X will transmit PDU P in system S") and wait for go.
 5. `assign_pdu_to_ecu({ modelId, batchId, pduId, ecuId, direction: "tx" })` (or
    `"rx"`). The answer has the new `portId` and `connectorIds`: one connection per
    ECU on the other side. `notConnected` names ECUs on the other side that got no
    connection, and why.
-6. Refused answers say why: no system, ECU not placed, or the ECU already has that
-   role. Nothing was staged then.
+6. Refused answers say why: no system, ECU not placed, the ECU already has that
+   role, or the ECU type's or system's batch belongs to another user. Nothing was
+   staged then.
 
 ## 3. Visual route
+
+### From the PDU (System Description)
 
 1. In the PDU's row, click **Add transmitting ECU** (column **Transmitting ECUs**) or
    **Add receiving ECU** (column **Receiving ECUs**). Dialog **Add transmitting ECU**
@@ -48,6 +57,28 @@ the visual route).
    **Assignment added — connection created** (one connection), or **Assignment added
    — N connections created**. The ECU appears in the column. A toast description
    names ECUs on the other side that weren't connected.
+
+### From the ECU (Configuration)
+
+1. Menubar **Configuration** → **ECU Types**. Either the ECU's row menu **Actions
+   for <ECU>** → **Open Ports** → **Send / Receive a PDU**; or **ECU Types** → **ECU
+   Ports** → **Send / Receive a PDU**, which first asks for the ECU (dialog **Send /
+   Receive a PDU**, "Choose the ECU type that gets the port.", field **ECU Type**,
+   **Continue**).
+2. Dialog **Send / Receive a PDU** ("<ECU> gets a port for the PDU, connected to the
+   ECUs on the other side. Staged in the ECU type's batch."). **Direction**: **Send
+   (Tx)** or **Receive (Rx)**. Changing it clears the PDU.
+3. **PDU**: searchable list (**Search PDUs...**) of the PDUs this ECU can take in
+   that direction, each with its path under the name. The others are under
+   **N PDUs can't be chosen, and why** (click to open), grouped by reason: "This ECU
+   already sends it." / "This ECU already receives it.", "This ECU is not placed in
+   <system>, the PDU's system." (task `place-ecu-in-system.md`), "The PDU has no
+   system. …".
+4. Summarise and wait for go. Click **Send** (or **Receive**). Toast **Port
+   created**, **Port created — connection created** or **Port created — N
+   connections created**; the port appears in the list. On failure: **Could not
+   send or receive the PDU** with the reason. Editing a port later (row menu
+   **Edit**, dialog **Edit ECU Port**) changes its interface or description only.
 
 ## 4. Report
 
