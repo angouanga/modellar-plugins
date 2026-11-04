@@ -36,7 +36,7 @@ being edited.
       `…Qname` / `parentQname` field) or the Package Path (a top-level element's
       `packagePath`). Trust it over other stored reference fields.
    3. Change only the fields the user asked for. Send references (`…Ref` fields)
-      back exactly as stored, with or without a leading `/`.
+      without a leading `/`, even when the stored one still has it.
    4. Leave out `elementType`.
 3. **Update.** `update_staged_element` with `stagedElementId` = the `id`,
    `elementType`, the `elementData` from step 2, and `expectedUpdatedAt` = the
