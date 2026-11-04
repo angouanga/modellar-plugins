@@ -90,8 +90,8 @@ Pick one:
   → the button **New …** (catalog: **Button**). A dialog opens (catalog: **Dialog**).
   Click **New …** only once the table shows rows: a click while the page is still
   loading does nothing. No dialog after a click: wait a moment and click once more.
-- **The full page:** **Go to…** (or **Ctrl+K**), type `New <section>` (for example
-  `New Interfaces`, `New Data Types`, plural) and press **Enter** once the entry is
+- **The full page:** **Go to…** (or **Ctrl+K**), type `New <element>` (for example
+  `New Interface`, `New Data Type`, singular) and press **Enter** once the entry is
   visible. The page shows the heading **Create …**.
 - **From the parent's row** (child types, best when the parent is known): open the
   parent's table, its row menu **Actions for <parent>**, and the list item for the
@@ -151,7 +151,7 @@ Never open a form on an address that holds the model's slug (see skill
 ### After submit
 
 - Success: the toast **"<Thing> created successfully"** (or "… staged
-  successfully"), sometimes twice. The dialog closes, or the full page returns to
+  successfully"), once. The dialog closes, or the full page returns to
   the list.
 - **"Fix 1 field before saving"** / **"Fix N fields before saving"**: read the red
   message under each field, fix exactly those, and submit again.

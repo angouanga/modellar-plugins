@@ -82,15 +82,14 @@ For when the user asks to do it in the UI, or the MCP route isn't available.
    versions: **Select a SWC interface...**). In the
    popover, type the interface name into **Search by name, short name, or
    description...** (the select **Filter by type** narrows by kind, for example
-   **SenderReceiverInterface**). Pick the row with the right name. The list grows as
+   **S/R Interface**; each row shows its kind the same way). Pick the row with the right name. The list grows as
    you scroll; "No port interfaces found." (or "No SWC interfaces found.") means no
    match.
 8. **Description**: optional.
 9. Summarise the values and wait for go. Then click **Create** and wait until it
    stops reading "Creating...".
 
-Success shows two toasts: **"Port prototype created successfully"** and **"Port
-created successfully."** The new card appears in the list, dimmed: it isn't drawn.
+Success shows the toast **"Port prototype created successfully"**. The new card appears in the list, dimmed: it isn't drawn.
 To draw it, continue with `show-hide-or-move-ports.md`.
 
 **Without a diagram:** menubar **Configuration** → **SW Component Types**, the SWC's
