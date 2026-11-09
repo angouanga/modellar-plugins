@@ -277,6 +277,13 @@ behaviorId`.
 - **Route today:** **MCP only for create.** The form picks a batch on its own and
   saves without a source file. **ComSpec Type** starts empty and must be picked;
   "Unknown" shows only on an imported ComSpec whose type wasn't read: change it.
+- **Traps:** a **signal-mapping** ComSpec (a port's data element mapped to a PDU
+  signal, on the ECU diagram; its path starts with an ECU's PDU port)
+  can't be edited: the form opens it read only ("This ComSpec is a signal mapping
+  … delete it and map the port again from the ECU diagram."), and
+  `stage_element` / `update_staged_element` refuse it. Create one with
+  `map_port_to_pdu` (skill `modellar-communication`, `map-port-to-pdu.md`). To
+  change one, delete it and map again; deleting isn't available yet, so say so.
 
 ## EcuInstanceType (ECU type)
 

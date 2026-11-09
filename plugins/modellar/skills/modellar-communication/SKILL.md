@@ -1,6 +1,6 @@
 ---
 name: modellar-communication
-description: Work with bus communication in the ModellAR Designer web app - PDUs (I-PDUs, BusDatagram), their signals (BusData), frames, systems (SystemType, "CanSystem"), ECUs placed in a system (ECU prototypes), and which ECU transmits (sends, Tx) or receives (Rx) a PDU, all in the System Description editor. Use when the user, on a ModellAR Designer page (URL contains /designer/), asks to find, list, read, create, add, change or report PDUs or signals, set or add a transmitter or receiver, make an ECU send or receive a PDU, place an ECU in a system, or asks why an ECU can't be picked for a PDU.
+description: Work with bus communication in the ModellAR Designer web app - PDUs (I-PDUs, BusDatagram), their signals (BusData), frames, systems (SystemType, "CanSystem"), ECUs placed in a system (ECU prototypes), and which ECU transmits (sends, Tx) or receives (Rx) a PDU, all in the System Description editor. Use when the user, on a ModellAR Designer page (URL contains /designer/), asks to find, list, read, create, add, change or report PDUs or signals, set or add a transmitter or receiver, make an ECU send or receive a PDU, place an ECU in a system, or asks why an ECU can't be picked for a PDU; or asks to map, link or connect a component port, data element or signal to a PDU (a signal mapping, the Mapping lines on an ECU diagram).
 ---
 
 # ModellAR: PDUs, signals, systems and ECUs
@@ -11,7 +11,7 @@ ECUs send and receive them.
 
 **The Modellar MCP connector comes first**: it has tools made for this family
 (`list_pdus`, `get_pdu`, `list_systems`, `list_ecus`, `create_pdu`, `add_signal`,
-`place_ecu_in_system`, `assign_pdu_to_ecu`). Use the screen (each task's **visual
+`place_ecu_in_system`, `assign_pdu_to_ecu`, `map_port_to_pdu`). Use the screen (each task's **visual
 route**) when the user asks for it ("show me", "do it in the UI"). To open a page,
 use skill `modellar-navigation`.
 
@@ -27,6 +27,9 @@ use skill `modellar-navigation`.
   that PDU.
 - A **transmitter** (Tx) sends the PDU, a **receiver** (Rx) reads it. A PDU can
   have several of each.
+- A **signal mapping** links a PDU's signal to a data element of a component's
+  port, on an ECU that sends or receives the PDU. It is stored as a ComSpec and
+  drawn as a "Mapping" line on the ECU diagram.
 - **Units**: a PDU's length is in **bytes**; a signal's start bit and bit length
   are in **bits**.
 - **PDU types** are shown in their ARXML spelling (`I-SIGNAL-I-PDU`), in the app
@@ -67,12 +70,13 @@ Read the task file before you start.
 | create a PDU, add or change a signal                             | `references/create-pdu-and-signals.md` |
 | make an ECU transmit or receive a PDU                            | `references/send-or-receive-a-pdu.md` |
 | place an ECU in a system (an ECU can't be picked for a PDU)      | `references/place-ecu-in-system.md` |
+| map a component port's data element to a PDU signal (signal mapping) | `references/map-port-to-pdu.md` |
 | give an ECU type a port; list an ECU type's ports or a system's ECUs and connections | `references/send-or-receive-a-pdu.md`, `references/place-ecu-in-system.md`, `references/system-connections.md` |
 
 **Not possible yet**: renaming a PDU safely (see task
-`create-pdu-and-signals.md`, Traps); mapping a PDU's signals to a component's data elements (the
-"Mapping" lines on an ECU diagram) for a new PDU, and deleting a PDU or signal. Say
-so; for a delete, the app's **Delete** button only shows what it would affect.
+`create-pdu-and-signals.md`, Traps); changing or deleting a signal mapping (see
+task `map-port-to-pdu.md`, Traps); and deleting a PDU or signal. Say so; for a
+delete, the app's **Delete** button only shows what it would affect.
 
 ## The usual chain
 
@@ -80,6 +84,7 @@ so; for a delete, the app's **Delete** button only shows what it would affect.
 | ------------------------------------------------------- | --------------------------------------------------------------------------------- |
 | "add a PDU with two signals that ECU X sends to ECU Y"  | find the system → `create-pdu-and-signals.md` (PDU with that system, then each signal) → `place-ecu-in-system.md` for X and Y if needed → `send-or-receive-a-pdu.md` (X tx, Y rx) |
 | "why can't I pick ECU X as the transmitter?"            | `get_pdu` (does it have a system?) → `list_ecus` (is X placed in it?) → offer `place-ecu-in-system.md` |
+| "map port Y of component C to PDU P on ECU X"            | `get_pdu` (does X send or receive P?) → if not, `send-or-receive-a-pdu.md` → `map-port-to-pdu.md` |
 
 One confirmation can cover the whole chain when the user gave every value up front.
 
