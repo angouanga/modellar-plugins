@@ -1,10 +1,19 @@
 # Map a component port to a PDU signal
 
-Link a data element of a software component's port to a signal of a PDU that the
-ECU sends or receives: a **signal mapping**. On the ECU diagram it is a "Mapping"
-line between the component's port and the PDU on the ECU frame. Saving one creates
-a signal-mapping ComSpec and, when needed, an access point in a runnable of the
-component and the system's root composition `<composition>_Root`.
+Link a data element of a port to a signal of a PDU that the ECU sends or
+receives: a **signal mapping**. On the ECU diagram it is a "Mapping" line between
+the port and the PDU on the ECU frame. Two kinds of port can be mapped:
+
+- **(a) a component's port**: a component (prototype) inside the ECU's
+  composition. It needs an access point in a runnable of the component, or a
+  runnable to create one in.
+- **(b) the ECU composition's own port**: a port on the composition frame. No
+  access point, no runnable, and no component needs to be connected yet:
+  components feed the port later through delegation connectors drawn on the
+  composition diagram (skill `modellar-connectors`, `add-connector.md`).
+
+Saving creates a signal-mapping ComSpec and, when needed, the access point (a
+only) and the system's root composition `<composition>_Root`.
 
 ## What has to be true first
 
@@ -18,13 +27,17 @@ component and the system's root composition `<composition>_Root`.
 ## 1. Where am I?
 
 - The ECU diagram: the URL contains `/diagram/ecu/<diagramId>`. The ECU frame
-  carries one handle per PDU the ECU sends or receives; the component boxes inside
-  it carry their ports.
+  carries one handle per PDU the ECU sends or receives; the composition frame
+  inside it carries the composition's own ports, and the component boxes carry
+  theirs.
 - Open with the dialog **Map port to PDU** ("Map port <port> of <component> to a
-  signal of PDU <PDU>."): the user already dragged; continue at visual route step 4.
+  signal of PDU <PDU>.", or "Map port <port> of the ECU composition <composition>
+  to a signal of PDU <PDU>."): the user already dragged; continue at visual route
+  step 4.
 - The ECU frame's tab **Mapping** (skill `modellar-diagrams`, `properties-panel.md`)
   lists the mappings already made, one card per PDU and port, named
-  `<PDU>_XIX_<component>_<port>`.
+  `<PDU>_XIX_<component>_<port>`. A card's port badge reads **Context Port** for a
+  component's port and **Composition Port** for the ECU composition's own port.
 
 ## 2. MCP route (default)
 
@@ -36,14 +49,19 @@ component and the system's root composition `<composition>_Root`.
      used in step 7. No entry: the ECU doesn't send or receive the PDU yet; stop
      and offer `send-or-receive-a-pdu.md`.
    - `signals`: the `id` of the signal to map (`busDataId`).
-3. **The component** (prototype): the ECU's composition is the ECU type's
-   `softwareComponentRef` (`search_elements` with `elementType: "EcuInstanceType"`,
-   `includeElementData: true`). Then
-   `search_elements({ modelId, elementType: "SwComponentPrototype", search: "<name>", includeElementData: true })`,
-   keep the one whose `qualifiedName` starts with the composition's
-   `qualifiedName` + `/`: its `id` is `prototypeId`, its type is
-   `elementData.softwareComponentRef`.
-4. **The port**: the ports are the type's.
+3. **The ECU's composition** is the ECU type's `softwareComponentRef`
+   (`search_elements` with `elementType: "EcuInstanceType"`,
+   `includeElementData: true`). Which kind of port did the user name?
+   - **(b) a port of that composition itself**:
+     `search_elements({ modelId, elementType: "PortPrototype", qualifiedNamePrefix: "<composition qualifiedName>/", includeElementData: true })`,
+     its `id` is `compositionPortId`. Check direction and interface as in step 4,
+     then step 5 (data element), skip step 6, go on at step 7.
+   - **(a) a component's port**: find the component (prototype) with
+     `search_elements({ modelId, elementType: "SwComponentPrototype", search: "<name>", includeElementData: true })`,
+     and keep the one whose `qualifiedName` starts with the composition's
+     `qualifiedName` + `/`: its `id` is `prototypeId`, its type is
+     `elementData.softwareComponentRef`.
+4. **The port** (a): the ports are the type's.
    `search_elements({ modelId, elementType: "PortPrototype", qualifiedNamePrefix: "<type qualifiedName>/", includeElementData: true })`.
    Keep its `id` (`portId`), `elementData.direction` and `elementData.interfaceRef`.
    - The ECU **sends** the PDU: the port must be `Provider` (or
@@ -53,7 +71,7 @@ component and the system's root composition `<composition>_Root`.
    `search_elements({ modelId, elementType: "VariableDataPrototype", qualifiedNamePrefix: "<interface qualifiedName>/" })`,
    its `id` (`variableDataPrototypeId`). A signal and a data element of the same
    name usually belong together; when the names differ, ask.
-6. **The access point** (the runnable side):
+6. **The access point** (a only; the runnable side):
    `search_elements({ modelId, elementType: "AccessPoint", qualifiedNamePrefix: "<type qualifiedName>/", includeElementData: true })`.
    Keep those whose `portId` is the port and whose `variableDataPrototypeId` is the
    data element, with an access type of the PDU's direction: `DataWriteAccess` or
@@ -72,15 +90,22 @@ component and the system's root composition `<composition>_Root`.
    lists the mappings on this PDU port; each name contains its signal's path.
    The ECU sends the PDU and the signal already has one: stop (see Traps).
 8. **Summary and go**: ECU, PDU and whether the ECU sends or receives it, signal
-   (start bit, bit length), component.port, data element, the access point or "a
-   new DataSendPoint / DataReceivePointByArgument in runnable R", and that the
-   system's root composition will be created if it has none. No batch to ask for:
-   each element goes into its parent's batch. Wait for go.
-9. `map_port_to_pdu({ modelId, ecuId, pduPortId, prototypeId, portId, variableDataPrototypeId, busDataId, accessPointId })`,
-   or with `createAccessPointInRunnableId` instead of `accessPointId` (never both).
-   The answer has `comSpecId`, `accessPointId`, `rootCompositionId`, `created`
-   (each new element: the ComSpec, and the access point and root composition when
-   they were made) and `warnings`.
+   (start bit, bit length), component.port or "composition port <port> of
+   <composition>", data element, the access point or "a new DataSendPoint /
+   DataReceivePointByArgument in runnable R" (a only), and that the system's root
+   composition will be created if it has none. No batch to ask for: each element
+   goes into its parent's batch. Wait for go.
+9. The call:
+   - (a) `map_port_to_pdu({ modelId, ecuId, pduPortId, prototypeId, portId, variableDataPrototypeId, busDataId, accessPointId })`,
+     or with `createAccessPointInRunnableId` instead of `accessPointId` (never
+     both).
+   - (b) `map_port_to_pdu({ modelId, ecuId, pduPortId, compositionPortId, variableDataPrototypeId, busDataId })`,
+     with **no** `prototypeId`, `portId`, `accessPointId` or
+     `createAccessPointInRunnableId`: the call is refused otherwise.
+
+   The answer has `comSpecId`, `accessPointId` (null for b), `rootCompositionId`,
+   `created` (each new element: the ComSpec, and the access point and root
+   composition when they were made) and `warnings`.
 10. Refused: the answer says why and "Nothing was staged." A failure partway lists
     what was "Already staged before the failure (don't stage these again)": the
     same call again reuses that access point; don't create one by hand.
@@ -99,31 +124,38 @@ connection**, then **Save Diagram**.
    name in **Search existing diagrams...** → **Open <name>**. Never the trash icon
    next to it ("Delete diagram <name>"). No ECU diagram yet: ask the user before
    **Create Diagram**.
-2. **Show both ends.** The PDU's handle on the ECU frame and the port's handle on
-   the component box must be visible (skill `modellar-diagrams`,
-   `show-or-hide-all.md` and `properties-panel.md`, tab **Ports**). The component
-   box must be on the diagram.
-3. **Drag** from the component's port handle onto the PDU's handle on the ECU frame,
-   or the reverse. Handles have no name: they can only be hit by position.
+2. **Show both ends.** The PDU's handle on the ECU frame and the port's handle (on
+   the component box, or on the composition frame for its own port) must be
+   visible (skill `modellar-diagrams`, `show-or-hide-all.md` and
+   `properties-panel.md`, tab **Ports**). A component box must be on the diagram.
+3. **Drag** from the port's handle onto the PDU's handle on the ECU frame, or the
+   reverse. Handles have no name: they can only be hit by position.
    - Dialog **Map port to PDU** opens: go on.
    - Toast **No connection created** with a reason: nothing was made. Reasons:
-     "Drag a component port onto a PDU of the ECU."; "A PDU is mapped to a port of
-     a component inside the composition, not to the composition's own port.";
-     "Draw connectors between components on the composition diagram. On the ECU
-     diagram, drag a component port onto a PDU of the ECU."
+     "Drag a component port onto a PDU of the ECU."; "Drag a port of this ECU's
+     composition onto one of its PDUs." (a composition frame that isn't this
+     ECU's); "Draw connectors between components on the composition diagram. On
+     the ECU diagram, drag a component port onto a PDU of the ECU."; "The port
+     behind the component handle was not found." / "The port behind the
+     composition handle was not found."
 4. The dialog first shows "Loading the PDU signals and the port's data
    elements…". A red box instead means the mapping can't be made; it gives the
    reason (Traps) and **Map port** stays disabled: tell the user and **Cancel**.
 5. Read the top lines: **PDU** "<PDU> (the ECU sends it)" or "(the ECU receives
    it)", **System**, and **Inner port** when the port leads into a composition. A
    blue note "System <system> has no root composition yet: saving also creates
-   <name> for it." means the root composition will be created.
+   <name> for it." means the root composition will be created. For the ECU
+   composition's own port, a blue note reads "This is a port of the ECU
+   composition itself, so it needs no access point or runnable. Components feed it
+   through delegation connectors, drawn on the composition diagram of
+   <composition>.", and the dialog has no **Access point** or **Runnable for a new
+   access point** field (skip step 8).
 6. **Data element** (**Select a data element**, search **Search data
    elements...**). Filled in when the interface has only one.
 7. **PDU signal** (**Select a signal**, search **Search signals...**); each row
    shows "bit <start>, <length> bits", or "no position". The signal of the same
    name as the data element is filled in: check it.
-8. Then one of:
+8. A component's port only, then one of:
    - **Access point** (**Select an access point**): the access points that write
      (sent PDU) or read (received PDU) the data element on that port. Filled in
      when there is one.
@@ -143,10 +175,12 @@ connection**, then **Save Diagram**.
 
 ## 4. Report
 
-The mapping: ECU, PDU (sent or received), signal, component.port, data element, the
-access point used or created (and its runnable), and whether the system's root
-composition `<composition>_Root` was created. Say where to see it: the ECU
-diagram's line, or the ECU frame's tab **Mapping**.
+The mapping: ECU, PDU (sent or received), signal, component.port (or the
+composition's own port), data element, the access point used or created (and its
+runnable), and whether the system's root composition `<composition>_Root` was
+created. Say where to see it: the ECU diagram's line, or the ECU frame's tab
+**Mapping**. For a composition port, offer the next step: delegation connectors
+from the components that feed it (skill `modellar-connectors`, `add-connector.md`).
 
 ## Traps
 
@@ -164,11 +198,23 @@ diagram's line, or the ECU frame's tab **Mapping**.
   but the ECU sends this PDU: map a provider port to it." (or the reverse). Only a
   sender-receiver interface can be mapped.
 - **A sent signal has one source**: when the ECU sends the PDU, a signal already
-  mapped to any port is refused ("Signal <signal> already has a source …"). A
+  mapped to any port, component or composition, is refused ("Signal <signal> already has a source …"). A
   **received** signal can be mapped to several ports.
 - **The exact same mapping is refused**: "Signal <signal> is already mapped to
   <data element> on port <port>."
-- **No access point** for the data element on that port: the user picks a runnable
+- **The ECU composition's own port** is mapped without an access point: an
+  `accessPointId` or `createAccessPointInRunnableId` with `compositionPortId` is
+  refused ("A port of the ECU composition is mapped without an access point: leave
+  accessPointId and createAccessPoint out."), and so is `compositionPortId`
+  together with `prototypeId` / `portId`. Other refusals: "Port <port> is not a
+  port of <composition>, the ECU's composition."; "The ECU has no composition, so
+  it has no composition port."
+- **Refused when the system's root composition is typed by another composition**
+  than the ECU's (composition port only): "The root composition <root> of system
+  <system> is typed by another composition than <composition>, so the port of
+  <composition> has no context in that system. Map a port of a component inside
+  the composition instead, or change the root composition's type."
+- **No access point** for the data element on a component's port: the user picks a runnable
   and a `DataSendPoint` (sent) or `DataReceivePointByArgument` (received) named
   `DSP_<port>_<data element>` / `DRPA_…` is created in it. A component with no
   runnable can't be mapped until one is created.
@@ -177,7 +223,7 @@ diagram's line, or the ECU frame's tab **Mapping**.
   composition, and the ECU has no composition to create one from." The component
   must sit inside the system's root composition ("The component is not inside the
   system's root composition …").
-- **A composition component's port** is followed through its delegation connector
+- **A port of a composition component** (a box inside the ECU's composition) is followed through its delegation connector
   to the inner port. Refused when it has no delegation ("Connect it on the
   composition diagram first.") or several ("Map the inner component port on its
   own diagram instead.").

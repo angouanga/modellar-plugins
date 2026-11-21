@@ -1,6 +1,6 @@
 ---
 name: modellar-communication
-description: Work with bus communication in the ModellAR Designer web app - PDUs (I-PDUs, BusDatagram), their signals (BusData), frames, systems (SystemType, "CanSystem"), ECUs placed in a system (ECU prototypes), and which ECU transmits (sends, Tx) or receives (Rx) a PDU, all in the System Description editor. Use when the user, on a ModellAR Designer page (URL contains /designer/), asks to find, list, read, create, add, change or report PDUs or signals, set or add a transmitter or receiver, make an ECU send or receive a PDU, place an ECU in a system, or asks why an ECU can't be picked for a PDU; or asks to map, link or connect a component port, data element or signal to a PDU (a signal mapping, the Mapping lines on an ECU diagram).
+description: Work with bus communication in the ModellAR Designer web app - PDUs (I-PDUs, BusDatagram), their signals (BusData), frames, systems (SystemType, "CanSystem"), ECUs placed in a system (ECU prototypes), and which ECU transmits (sends, Tx) or receives (Rx) a PDU, all in the System Description editor. Use when the user, on a ModellAR Designer page (URL contains /designer/), asks to find, list, read, create, add, change or report PDUs or signals, set or add a transmitter or receiver, make an ECU send or receive a PDU, place an ECU in a system, or asks why an ECU can't be picked for a PDU; or asks to map, link or connect a component port, the ECU composition's own port, a data element or a signal to a PDU (a signal mapping, the Mapping lines on an ECU diagram).
 ---
 
 # ModellAR: PDUs, signals, systems and ECUs
@@ -70,7 +70,7 @@ Read the task file before you start.
 | create a PDU, add or change a signal                             | `references/create-pdu-and-signals.md` |
 | make an ECU transmit or receive a PDU                            | `references/send-or-receive-a-pdu.md` |
 | place an ECU in a system (an ECU can't be picked for a PDU)      | `references/place-ecu-in-system.md` |
-| map a component port's data element to a PDU signal (signal mapping) | `references/map-port-to-pdu.md` |
+| map a port's data element to a PDU signal (signal mapping): a component's port, or the ECU composition's own port | `references/map-port-to-pdu.md` |
 | give an ECU type a port; list an ECU type's ports or a system's ECUs and connections | `references/send-or-receive-a-pdu.md`, `references/place-ecu-in-system.md`, `references/system-connections.md` |
 
 **Not possible yet**: renaming a PDU safely (see task

@@ -282,7 +282,9 @@ behaviorId`.
   can't be edited: the form opens it read only ("This ComSpec is a signal mapping
   … delete it and map the port again from the ECU diagram."), and
   `stage_element` / `update_staged_element` refuse it. Create one with
-  `map_port_to_pdu` (skill `modellar-communication`, `map-port-to-pdu.md`). To
+  `map_port_to_pdu` (skill `modellar-communication`, `map-port-to-pdu.md`), on a
+  component's port (with an access point) or on the ECU composition's own port
+  (`compositionPortId`, no access point). To
   change one, delete it and map again; deleting isn't available yet, so say so.
 
 ## EcuInstanceType (ECU type)
