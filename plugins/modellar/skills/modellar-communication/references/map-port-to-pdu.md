@@ -145,11 +145,8 @@ connection**, then **Save Diagram**.
    it)", **System**, and **Inner port** when the port leads into a composition. A
    blue note "System <system> has no root composition yet: saving also creates
    <name> for it." means the root composition will be created. For the ECU
-   composition's own port, a blue note reads "This is a port of the ECU
-   composition itself, so it needs no access point or runnable. Components feed it
-   through delegation connectors, drawn on the composition diagram of
-   <composition>.", and the dialog has no **Access point** or **Runnable for a new
-   access point** field (skip step 8).
+   composition's own port, the dialog has no **Access point** or **Runnable for a
+   new access point** field (skip step 8).
 6. **Data element** (**Select a data element**, search **Search data
    elements...**). Filled in when the interface has only one.
 7. **PDU signal** (**Select a signal**, search **Search signals...**); each row
