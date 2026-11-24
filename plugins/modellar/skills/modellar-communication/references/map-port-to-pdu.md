@@ -147,11 +147,12 @@ connection**, then **Save Diagram**.
    <name> for it." means the root composition will be created. For the ECU
    composition's own port, the dialog has no **Access point** or **Runnable for a
    new access point** field (skip step 8).
-6. **Data element** (**Select a data element**, search **Search data
-   elements...**). Filled in when the interface has only one.
-7. **PDU signal** (**Select a signal**, search **Search signals...**); each row
-   shows "bit <start>, <length> bits", or "no position". The signal of the same
-   name as the data element is filled in: check it.
+6. **PDU signal** (**Select a signal**, search **Search signals...**); each row
+   shows "bit <start>, <length> bits", or "no position". The signal decides the
+   data element: the one of the same name, else the interface's only one.
+7. **Data element** (**Select a data element**, search **Search data
+   elements...**) appears only when the chosen signal has no data element of its
+   name and the interface has several: pick the one the signal carries.
 8. A component's port only, then one of:
    - **Access point** (**Select an access point**): the access points that write
      (sent PDU) or read (received PDU) the data element on that port. Filled in
