@@ -1,6 +1,6 @@
 ---
 name: modellar-communication
-description: Work with bus communication in the ModellAR Designer web app - PDUs (I-PDUs, BusDatagram), their signals (BusData), frames, systems (SystemType, "CanSystem"), ECUs placed in a system (ECU prototypes), and which ECU transmits (sends, Tx) or receives (Rx) a PDU, all in the System Description editor. Use when the user, on a ModellAR Designer page (URL contains /designer/), asks to find, list, read, create, add, change or report PDUs or signals, set or add a transmitter or receiver, make an ECU send or receive a PDU, place an ECU in a system, or asks why an ECU can't be picked for a PDU; or asks to map, link or connect a component port, the ECU composition's own port, a data element or a signal to a PDU (a signal mapping, the Mapping lines on an ECU diagram).
+description: Work with bus communication in the ModellAR Designer web app - PDUs (I-PDUs, BusDatagram), their signals (BusData), frames, systems (SystemType, "CanSystem"), ECUs placed in a system (ECU prototypes), and which ECU transmits (sends, Tx) or receives (Rx) a PDU, all in the System Description editor. Use when the user, on a ModellAR Designer page (URL contains /designer/), asks to find, list, read, create, add, change or report PDUs or signals, set or change a PDU's timing (period, cycle time, cyclic or event transmission, timing, repetitions, minimum delay), set or add a transmitter or receiver, make an ECU send or receive a PDU, place an ECU in a system, or asks why an ECU can't be picked for a PDU; or asks to map, link or connect a component port, the ECU composition's own port, a data element or a signal to a PDU (a signal mapping, the Mapping lines on an ECU diagram).
 ---
 
 # ModellAR: PDUs, signals, systems and ECUs
@@ -31,7 +31,9 @@ use skill `modellar-navigation`.
   port, on an ECU that sends or receives the PDU. It is stored as a ComSpec and
   drawn as a "Mapping" line on the ECU diagram.
 - **Units**: a PDU's length is in **bytes**; a signal's start bit and bit length
-  are in **bits**.
+  are in **bits**. A PDU's **timing** (period, offset, repetition period, minimum
+  delay) is in **milliseconds** in the dialogs and in `create_pdu`, `get_pdu` and
+  `list_pdus`, but in **seconds** in `update_staged_element` (100 ms = `0.1`).
 - **PDU types** are shown in their ARXML spelling (`I-SIGNAL-I-PDU`), in the app
   and in `list_pdus` / `get_pdu`. `create_pdu` takes only the short form
   (`ISignalIPdu`, `NmPdu` …): convert before passing one on.
@@ -67,7 +69,7 @@ Read the task file before you start.
 | The user wants to …                                              | Read                                |
 | ---------------------------------------------------------------- | ----------------------------------- |
 | find, list or report PDUs, their signals, systems or ECUs        | `references/find-pdus-and-signals.md` |
-| create a PDU, add or change a signal                             | `references/create-pdu-and-signals.md` |
+| create a PDU, add or change a signal, set or change a PDU's timing (period, cycle time) | `references/create-pdu-and-signals.md` |
 | make an ECU transmit or receive a PDU                            | `references/send-or-receive-a-pdu.md` |
 | place an ECU in a system (an ECU can't be picked for a PDU)      | `references/place-ecu-in-system.md` |
 | map a port's data element to a PDU signal (signal mapping): a component's port, or the ECU composition's own port | `references/map-port-to-pdu.md` |

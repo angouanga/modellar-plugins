@@ -27,7 +27,15 @@ PDUs of an ECU or a system; list the systems and where each ECU is placed.
    - `missing`: what the PDU still lacks (`system`, `frame`, `transmitter`,
      `receiver`, `signals`, `signalPositions` = a signal has no start bit or
      length).
+   - `timing`: the transmission timing in **milliseconds**, or `null`:
+     `transmissionMode` (`CYCLIC`, `EVENT`, `MIXED`), `cyclic: { periodMs,
+     offsetMs }`, `event: { numberOfRepetitions, repetitionPeriodMs }`,
+     `minimumDelayMs`;
+   - `timingSource`: `stored` (set on the PDU; a `null` timing means it was
+     cleared), `imported` (read from the imported ARXML, the PDU has none of its
+     own yet) or `none`.
    - Every system comes with its `sourceFile`: name it with the system.
+   `list_pdus` rows carry the same `timing` and `timingSource`.
 3. **The PDUs of an ECU**: `list_ecus({ modelId, search: "<ECU name>" })` for its id,
    then `list_pdus({ modelId, ecuId, direction: "tx" })` (sent) or `"rx"` (received).
 4. **The PDUs of a system**: `list_systems({ modelId })` for its id (several
@@ -48,14 +56,19 @@ ECUs...**.
 3. Click **Expand** on its row: the row shows the PDU's bit layout and its signals,
    sorted by start bit. A signal without a start bit shows "—" and isn't drawn;
    a note above the layout counts them. The columns show **Transmitting ECUs** and
-   **Receiving ECUs**.
+   **Receiving ECUs**. The header's badges show the PDU type, **Frame:**,
+   **Controller:**, **Length: … bytes** and, when it has a timing, a timing badge
+   in ms: "Cyclic 100 ms", "Cyclic 100 ms (offset 5 ms)", "Event ×3 / 10 ms",
+   "Cyclic 100 ms + Event ×3", followed by " · min delay 4 ms" when one is set.
+   No timing, no badge.
 4. For one ECU's PDUs, open the **ECU based** tab and search the ECU's name.
 5. Changes made elsewhere (MCP, another tab) show after **Refresh** (top right; its
    icon spins while it reloads).
 
 ## 4. Report
 
-The PDU: name, qualified name, length in bytes, system and its file, frame. Its
+The PDU: name, qualified name, length in bytes, system and its file, frame, timing
+in ms (and whether it is imported). Its
 signals with start bit and bit length. Its transmitting and receiving ECUs. What is
 `missing` for it to reach the bus.
 
@@ -65,4 +78,8 @@ signals with start bit and bit length. Its transmitting and receiving ECUs. What
   signals live in `ISignal/...`. Never look up a PDU's signals with
   `search_elements` and a path prefix; use `get_pdu`.
 - Several systems share a name ("CanSystem"): always say which file.
+- `timing` is in **ms** here, but in **seconds** in `update_staged_element`
+  (task `create-pdu-and-signals.md`). An imported PDU in a model imported before
+  timing existed shows only a cyclic period and minimum delay until the ARXML is
+  imported again; a renamed imported PDU shows no imported timing.
 - Searchable lists in the app show at most 100 rows: type to narrow.
