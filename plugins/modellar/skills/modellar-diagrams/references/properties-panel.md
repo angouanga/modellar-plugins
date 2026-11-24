@@ -62,7 +62,10 @@ Ports on the canvas can't be selected: manage them from the frame's **Ports** ta
     Prototype**, **Add Runnable**, **Add RTE Event**, **Add Behavior**, **Add
     Access Point**) that opens a create dialog;
   - per card: a visibility button, **Edit …** and **Delete …** (named after the
-    item, for example "Edit component prototype FoDMaster").
+    item, for example "Edit component prototype FoDMaster"). The ECU's
+    **Mapping** cards, and a mapping line's card, have no **Edit**: a signal
+    mapping can't be edited (skill `modellar-communication`,
+    `map-port-to-pdu.md`).
   - Long lists show 10 at a time: "Showing X of Y …" and **Load More**.
 
 ### The visibility button on a card

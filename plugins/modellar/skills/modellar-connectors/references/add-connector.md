@@ -137,3 +137,6 @@ was dragged). Offer to show it.
   **same** idempotency key.
 - **"Staging batch not found"**: the composition is in another user's batch. Tell
   the user.
+- **A composition port mapped to a PDU** (on the ECU diagram) gets its signals
+  from the delegation connectors drawn here, from the inner components' ports to
+  that composition port (skill `modellar-communication`, `map-port-to-pdu.md`).
