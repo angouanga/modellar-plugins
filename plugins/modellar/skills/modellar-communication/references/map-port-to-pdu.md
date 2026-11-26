@@ -30,10 +30,10 @@ only) and the system's root composition `<composition>_Root`.
   carries one handle per PDU the ECU sends or receives; the composition frame
   inside it carries the composition's own ports, and the component boxes carry
   theirs.
-- Open with the dialog **Map port to PDU** ("Map port <port> of <component> to a
-  signal of PDU <PDU>.", or "Map port <port> of the ECU composition <composition>
-  to a signal of PDU <PDU>."): the user already dragged; continue at visual route
-  step 4.
+- Open with the dialog **Connect SWC to bus signal** ("Connect <component> (port
+  <port>) to a bus signal of <PDU>.", or "Connect the ECU composition
+  <composition> (port <port>) to a bus signal of <PDU>."): the user already
+  dragged; continue at visual route step 4.
 - The ECU frame's tab **Mapping** (skill `modellar-diagrams`, `properties-panel.md`)
   lists the mappings already made, one card per PDU and port, named
   `<PDU>_XIX_<component>_<port>`. A card's port badge reads **Context Port** for a
@@ -80,8 +80,11 @@ only) and the system's root composition `<composition>_Root`.
    - One or more: the user picks one (`accessPointId`).
    - None: a new one is created. The user picks the runnable:
      `search_elements({ modelId, elementType: "Runnable", qualifiedNamePrefix: "<type qualifiedName>/" })`
-     (`createAccessPointInRunnableId`). No runnable: stop; one has to be created
-     first (skill `modellar-configuration`, `create-element.md`).
+     (`createAccessPointInRunnableId`). Suggest first a runnable whose timing
+     event runs at half the PDU's cycle time (twice its rate; `get_pdu` gives the
+     timing). No runnable: stop; one has to be created first (skill
+     `modellar-configuration`, `create-element.md`), ideally with a timing event
+     at half the PDU's cycle time.
    - For a **composition** component, the tool follows the port's delegation
      connector to the inner component's port: look up access points and runnables
      on that inner component instead.
@@ -130,7 +133,7 @@ connection**, then **Save Diagram**.
    `properties-panel.md`, tab **Ports**). A component box must be on the diagram.
 3. **Drag** from the port's handle onto the PDU's handle on the ECU frame, or the
    reverse. Handles have no name: they can only be hit by position.
-   - Dialog **Map port to PDU** opens: go on.
+   - Dialog **Connect SWC to bus signal** opens: go on.
    - Toast **No connection created** with a reason: nothing was made. Reasons:
      "Drag a component port onto a PDU of the ECU."; "Drag a port of this ECU's
      composition onto one of its PDUs." (a composition frame that isn't this
@@ -138,16 +141,17 @@ connection**, then **Save Diagram**.
      the ECU diagram, drag a component port onto a PDU of the ECU."; "The port
      behind the component handle was not found." / "The port behind the
      composition handle was not found."
-4. The dialog first shows "Loading the PDU signals and the port's data
-   elements…". A red box instead means the mapping can't be made; it gives the
-   reason (Traps) and **Map port** stays disabled: tell the user and **Cancel**.
+4. The dialog first shows "Loading the bus signals and the port's data
+   elements…". A red box instead means the connection can't be made; it gives
+   the reason (Traps) and **Connect** stays disabled: tell the user and
+   **Cancel**.
 5. Read the top lines: **PDU** "<PDU> (the ECU sends it)" or "(the ECU receives
    it)", **System**, and **Inner port** when the port leads into a composition. A
    blue note "System <system> has no root composition yet: saving also creates
    <name> for it." means the root composition will be created. For the ECU
    composition's own port, the dialog has no **Access point** or **Runnable for a
    new access point** field (skip step 8).
-6. **PDU signal** (**Select a signal**, search **Search signals...**); each row
+6. **Bus signal** (**Select a signal**, search **Search signals...**); each row
    shows "bit <start>, <length> bits", or "no position". The signal decides the
    data element: the one of the same name, else the interface's only one.
 7. **Data element** (**Select a data element**, search **Search data
@@ -159,16 +163,23 @@ connection**, then **Save Diagram**.
      when there is one.
    - **Runnable for a new access point** (**Select a runnable**), when there is
      none: "No access point writes <data element> on port <port>. Saving creates a
-     DataSendPoint in this runnable." (or "reads" … DataReceivePointByArgument). An
-     empty list reads "<component> has no runnables. Create one first."
-9. Summarise and wait for go. Click **Map port** (it reads **Mapping…** while it
+     DataSendPoint in this runnable." (or "reads" … DataReceivePointByArgument).
+     Every runnable is listed with its period ("every 50 ms", or "no timing
+     event"); those at half the PDU's cycle time come first, marked
+     "suggested". Nothing is picked from the suggestion; only a single runnable
+     is pre-selected. A blue box below always offers **Create runnable** (with a
+     PDU cycle time: **Create runnable (<half> ms)**): it opens the usual runnable
+     dialog with an extra **Cycle time (ms)** field, pre-filled with half the
+     PDU's cycle time, or empty. Filled, saving also creates a timing event
+     `TE_<runnable>_<ms>ms`; the new runnable is then selected.
+9. Summarise and wait for go. Click **Connect** (it reads **Connecting…** while it
    works). Red messages under a field stop it: "Choose a data element", "Choose a
    signal", "Choose an access point", "Choose the runnable to create the access
    point in", "The ECU already sends this signal from a mapped port; a sent signal
    has one source", "This signal is already mapped to this data element".
-10. Success: toast **Port mapped to PDU signal**, its description naming what else
+10. Success: toast **SWC connected to bus signal**, its description naming what else
     was made ("root composition created, access point created."). The line is
-    drawn and saved by itself. Failure: toast **Port not mapped** with the reason,
+    drawn and saved by itself. Failure: toast **SWC not connected** with the reason,
     and "Already staged: …" when part of it was saved.
 
 ## 4. Report
